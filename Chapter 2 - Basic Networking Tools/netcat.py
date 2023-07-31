@@ -1,5 +1,5 @@
 #!/usr/bin/evn python
-# Netcat Replacement
+# Netcat Replacement (without OOP)
 
 import argparse
 import sys
@@ -62,32 +62,6 @@ def server_loop():
         client_thread = threading.Thread(target=client_handler,args=(client_socket,))
         client_thread.start()
 
-def main():
-    global execute
-    global command
-    global upload_destination
-
-    args = arguement_parser()
-    if not len(sys.argv[1:]):
-        print(argparse.ArgumentParser.print_help(parser))
-        exit(0)
-    execute = args.execute
-    command = args.command
-    upload_destination = args.upload
-    listen = args.listen
-    port = args.port
-    target = args.target
-
-    try:
-        if not listen and len(target) and port > 0:
-            buffer = sys.stdin.read()
-            client_sender(buffer)
-    except:
-        print(argparse.ArgumentParser.print_help(parser))
-
-    if listen:
-        server_loop()
-
 def run_command(command):
     # trim the newline
     command = command.rstrip()
@@ -141,6 +115,32 @@ def client_handler(client_socket):
             response = run_command(cmd_buffer)
             # send back the response
             client_socket.send(response.encode())
+
+def main():
+    global execute
+    global command
+    global upload_destination
+
+    args = arguement_parser()
+    if not len(sys.argv[1:]):
+        print(argparse.ArgumentParser.print_help(parser))
+        exit(0)
+    execute = args.execute
+    command = args.command
+    upload_destination = args.upload
+    listen = args.listen
+    port = args.port
+    target = args.target
+
+    try:
+        if not listen and len(target) and port > 0:
+            buffer = sys.stdin.read()
+            client_sender(buffer)
+    except:
+        print(argparse.ArgumentParser.print_help(parser))
+
+    if listen:
+        server_loop()
 
 if __name__ == '__main__':
     main()
