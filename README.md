@@ -1,2 +1,2 @@
 # blackhat_python
-Modules from the Black Hat Python book. Just a scratch pad for testing.
+Modules from the Black Hat Python book with some rewrites from me. Scratch pad for testing the code.
