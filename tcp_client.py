@@ -1,3 +1,5 @@
+#!/bin/env python
+
 import socketgit commit -m "first commit"
 
 target_host = "www.google.com"
