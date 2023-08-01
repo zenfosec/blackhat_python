@@ -50,6 +50,10 @@ def client_sender(buffer):
 def server_loop():
     global port
     global target
+    global args
+    args = arguement_parser()
+    target = args.target
+    port = args.port
     # if no target is defined, we listen on all interfaces
     if not len(target):
         target = '0.0.0.0'
@@ -77,8 +81,9 @@ def client_handler(client_socket):
     global upload
     global execute
     global command
+    global args
     # check for upload
-    if len(upload_destination):
+    if upload_destination:
         # read in all of the bytes and write to our destination
         file_buffer = ''
         # keep reading data until none is available
@@ -98,7 +103,7 @@ def client_handler(client_socket):
         except:
             client_socket.send(f'Failed to save file to {upload_destination}\r\n'.encode())
     # check for command execution
-    if len(execute):
+    if execute:
         # run the command
         output = run_command(execute)
         client_socket.send(output.encode())
@@ -114,7 +119,7 @@ def client_handler(client_socket):
             # send back the command output
             response = run_command(cmd_buffer)
             # send back the response
-            client_socket.send(response.encode())
+            client_socket.send(response)
 
 def main():
     global execute
